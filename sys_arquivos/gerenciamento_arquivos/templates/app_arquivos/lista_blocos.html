@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Blocos</title>
+</head>
+<body>
+    <h1>Lista de Blocos</h1>
+
+    <table border="1">
+        <tr>
+            <th>Bloco ID</th>
+            <th>Conteúdo</th>
+            <th>Status</th>
+            <th>Arquivo Associado</th>
+        </tr>
+        {% for info in blocos_info %}
+        <tr>
+            <td>{{ info.bloco.id }}</td>
+            <td>{{ info.bloco.conteudo }}</td>
+            <td>
+                {% if info.ocupado %}
+                    Ocupado
+                {% else %}
+                    Livre
+                {% endif %}
+            </td>
+            <td>
+                {% if info.ocupado %}
+                    {{ info.arquivo }}
+                {% else %}
+                    --
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Arquivos</h2>
+    <ul>
+        {% for arquivo in arquivos %}
+            <li>
+                {{ arquivo.nome }}
+                <form action="{% url 'deletar_arquivo' arquivo.nome %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit">Deletar</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>Nenhum arquivo encontrado.</li>
+        {% endfor %}
+    </ul>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" name="delete_all">Deletar Todos os Arquivos</button>
+    </form>
+
+    <br>
+
+    <a href="{% url 'criar_arquivo' %}">Criar Novo Arquivo</a>
+    <a href="{%}">
+</body>
+</html>
